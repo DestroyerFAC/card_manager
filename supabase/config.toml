@@ -1,0 +1,15 @@
+# Minimal Supabase CLI configuration; unspecified sections use CLI defaults.
+project_id = "card-manager"
+
+[auth]
+# Must match the Cloudflare Pages URL in production (set it in the Dashboard as well).
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173", "http://localhost:4173"]
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+
+[functions.card-prices]
+# Only signed-in users may trigger upstream price refreshes.
+verify_jwt = true
