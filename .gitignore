@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-ssr
+coverage
+*.local
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+# Tesseract assets are copied from node_modules at build time; never commit them.
+public/tesseract
+supabase/.temp
+supabase/.branches
