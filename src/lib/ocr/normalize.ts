@@ -38,7 +38,12 @@ export function normalizeOcrText(raw: string): string {
       .replace(/[‐-―]/g, '-')
       .split('\n')
       // Control characters (tabs, bells…) are OCR garbage.
-      .map((line) => line.replace(/\p{Cc}/gu, ' ').replace(/\s+/g, ' ').trim())
+      .map((line) =>
+        line
+          .replace(/\p{Cc}/gu, ' ')
+          .replace(/\s+/g, ' ')
+          .trim(),
+      )
       .filter((line) => line.length > 0)
       .join('\n')
   );

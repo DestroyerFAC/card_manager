@@ -7,10 +7,10 @@ export const VARIANTS = ['normal', 'reverse', 'holo'] as const;
 export type Variant = (typeof VARIANTS)[number];
 
 export const CONDITION_LABELS: Record<Condition, string> = {
-  NM: 'Near Mint',
+  NM: 'Quasi neuf',
   EX: 'Excellent',
-  GD: 'Good',
-  PL: 'Played',
+  GD: 'Bon',
+  PL: 'Joué',
 };
 
 export const VARIANT_LABELS: Record<Variant, string> = {
