@@ -36,4 +36,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - run: deno check supabase/functions/card-prices/index.ts
+      # Run from the function folder so its deno.json (nodeModulesDir: none) applies instead of
+      # the root package.json, which would make Deno look for an npm-installed node_modules.
+      - run: deno check index.ts
+        working-directory: supabase/functions/card-prices
