@@ -31,6 +31,12 @@ function toAuthError(code: string | undefined, status: number | undefined): AppE
       return appError('auth', 'Confirmez votre email avant de vous connecter');
     case 'weak_password':
       return appError('validation', 'Mot de passe trop faible');
+    case 'email_address_not_authorized':
+      // Supabase's built-in SMTP only mails organisation members until custom SMTP is set up.
+      return appError(
+        'unavailable',
+        'Inscriptions momentanément fermées (envoi d’email non configuré)',
+      );
     case 'over_request_rate_limit':
     case 'over_email_send_rate_limit':
       return appError('auth', 'Trop de tentatives, réessayez dans quelques minutes');
