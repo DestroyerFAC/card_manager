@@ -6,6 +6,8 @@ coverage
 .env
 .env.*
 !.env.example
+# Public build-time values only (URL + publishable key): safe to commit by design.
+!.env.production
 *.tsbuildinfo
 .DS_Store
 .vscode/*

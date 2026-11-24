@@ -1,5 +1,5 @@
 # Minimal Supabase CLI configuration; unspecified sections use CLI defaults.
-project_id = "card-manager"
+project_id = "qhegzrfosiellxutojrm"
 
 [auth]
 # Must match the Cloudflare Pages URL in production (set it in the Dashboard as well).
