@@ -32,9 +32,15 @@ function tesseractAssets(): Plugin {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const url = req.url?.split('?')[0];
-        if (!url?.startsWith(prefix)) return next();
+        if (!url?.startsWith(prefix)) {
+          next();
+          return;
+        }
         const source = files[url.slice(prefix.length)];
-        if (!source) return next();
+        if (!source) {
+          next();
+          return;
+        }
         res.setHeader('Content-Type', 'text/javascript');
         createReadStream(source).pipe(res);
       });
