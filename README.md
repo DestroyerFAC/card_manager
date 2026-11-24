@@ -8,6 +8,30 @@ Hébergement visé : **0 €** (Cloudflare Pages + Supabase Free).
 > n'embarque aucune image ni aucun logo officiel : les visuels de cartes sont chargés depuis
 > l'API [TCGdex](https://tcgdex.dev) au moment de l'affichage. Les icônes de l'app sont originales.
 
+## Mise en service (état actuel)
+
+Le backend est **déjà provisionné et testé** :
+
+| Élément                                                        | État                                                                       |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Projet Supabase `card-manager` (`qhegzrfosiellxutojrm`, Paris) | Actif, offre gratuite                                                      |
+| Migration `init_schema`                                        | Appliquée, 0 alerte de sécurité Supabase                                   |
+| Edge Function `card-prices`                                    | Déployée (`verify_jwt = true`)                                             |
+| `.env.production`                                              | URL + clé publishable versionnées : le build fonctionne sans configuration |
+
+Il reste **3 réglages manuels** (non pilotables depuis le code) :
+
+1. **Cloudflare Pages** → _Workers & Pages → Create → Pages → Connect to Git_ → dépôt
+   `card_manager`, branche de production `main`, build `npm run build`, sortie `dist`,
+   variable `NODE_VERSION=22`. Aucune autre variable n'est nécessaire.
+2. **Supabase → Authentication → Sign In / Providers → Email** : désactiver **Confirm email**
+   (recommandé pour démarrer). Sinon, le serveur d'email intégré n'envoie **qu'aux membres de
+   l'organisation Supabase** (2 emails/heure) et toute autre inscription est refusée ; l'alternative
+   est un SMTP gratuit (ex. Resend, Brevo) dans _Authentication → Emails → SMTP Settings_.
+3. **Supabase → Authentication → URL Configuration** : `Site URL` = l'URL `*.pages.dev`
+   obtenue à l'étape 1 (et l'ajouter aux _Redirect URLs_). Facultatif : restreindre le CORS de
+   l'Edge Function avec le secret `ALLOWED_ORIGIN` = cette même URL.
+
 ## Fonctionnalités (MVP)
 
 | #   | Fonction    | Détails                                                                                                                                                                       |
@@ -226,6 +250,9 @@ derrière un tunnel HTTPS, ou déployez une préversion Cloudflare Pages.
   conseil financier.
 - **Quotas Supabase Free** : 500 Mo de base, 50 000 MAU, 500 000 invocations d'Edge Function / mois,
   5 Go d'egress, 2 projets actifs.
+- **Emails d'authentification** : le SMTP intégré de Supabase est limité à 2 emails/heure et
+  aux seules adresses des membres de l'organisation ; voir « Mise en service » (désactiver la
+  confirmation d'email ou configurer un SMTP).
 - **Pause du projet Supabase gratuit après 1 semaine d'inactivité** : l'app affiche alors des
   erreurs de connexion ; il faut le réactiver depuis le dashboard (ou générer un peu d'activité).
 - **TCGdex** : API communautaire gratuite sans SLA ni limite documentée ; elle est appelée
